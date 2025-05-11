@@ -72,7 +72,7 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     db.add(user)
     db.commit()
 
-async def get_current_user(token: Annotated[str, Depends[oauth2_bearer]]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get('sub')
