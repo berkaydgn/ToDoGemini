@@ -4,8 +4,8 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 from starlette import status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from database import SessionLocal
-from models import User
+from ..database import SessionLocal
+from ..models import User
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 from datetime import timedelta, datetime, timezone
@@ -17,7 +17,7 @@ router = APIRouter(
     tags = ["Authentication"]
 )
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 SECRET_KEY = "a7Xk9Pq2rM5tVb8Zc1LgYwN4He6Jd3Qo"
 ALGORITHM = "HS256"
@@ -61,9 +61,6 @@ def authenticate_user(username: str, password: str, db):
         return False
     return user
 
-
-
-
 @router.get("/login-page")
 def render_login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
@@ -71,9 +68,6 @@ def render_login_page(request: Request):
 @router.get("/register-page")
 def render_register_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
-
-
-
 
 
 @router.post("/", status_code=status.HTTP_204_NO_CONTENT)
